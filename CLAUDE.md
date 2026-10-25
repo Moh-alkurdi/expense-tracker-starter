@@ -27,7 +27,6 @@ There is no test runner or test suite configured.
 
 ## Known issues
 
-- `amount` is stored as a **string** (in the seed data and from the number input), so the `reduce` sums in `App.jsx` concatenate strings instead of adding numbers, which breaks the totals and balance.
 - The "Freelance Work" seed entry has `type: "expense"` with category `salary`, which looks like it should be income.
 
 ## Lint notes
