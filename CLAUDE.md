@@ -22,8 +22,33 @@ There is no test runner or test suite configured.
 
 - React 19 + Vite 7, plain JavaScript (JSX), no TypeScript, no router, no state library, no backend.
 - `src/main.jsx` mounts `<App />` in `StrictMode`. Global styles are in `src/index.css`, component styles in `src/App.css`.
-- Everything lives in one component, `src/App.jsx`: transaction state (seeded with hardcoded sample data, not persisted), add-transaction form state, type/category filters, derived totals (income / expenses / balance), and all the markup. The category list is a hardcoded array in the same file and feeds both the form and the filter dropdowns.
-- Transaction shape: `{ id, description, amount, type: "income" | "expense", category, date: "YYYY-MM-DD" }`. `id` is `Date.now()` for new entries.
+### Component tree and data flow
+
+```
+App (src/App.jsx)                    owns transactions state + module-level categories array
+├── Summary (src/Summary.jsx)        props: transactions
+├── TransactionForm (src/TransactionForm.jsx)   props: categories, onAdd
+└── TransactionList (src/TransactionList.jsx)   props: transactions, categories
+```
+
+- One-way data flow: `App` is the single source of truth for `transactions` (seeded with hardcoded sample data, not persisted). Children never mutate it; the only write path is `TransactionForm` → `onAdd(transaction)` → `App.handleAdd`, which appends.
+- State is kept local to the component that uses it:
+  - `TransactionForm` owns its input state (description, amount, type, category), builds the complete transaction object (`id`, parsed `amount`, `date`), and resets itself after submit.
+  - `TransactionList` owns the type/category filter state and derives the filtered rows on render.
+  - `Summary` holds no state; it derives income / expenses / balance from **all** transactions, so totals ignore the list filters.
+- `categories` is a constant at module scope in `App.jsx` and is passed down to both the form and the list dropdowns. Add new categories there.
+
+### Data model
+
+`{ id, description, amount, type: "income" | "expense", category, date: "YYYY-MM-DD" }`
+
+- `amount` must be a **number** (inputs return strings, so `TransactionForm` uses `parseFloat`). Storing strings breaks the `reduce` sums in `Summary`.
+- `id` is `Date.now()` for new entries.
+
+### Conventions
+
+- One component per file in `src/`, function components with a default export, imported with the explicit `.jsx` extension.
+- All component styles live in the shared `src/App.css` (class names such as `summary`, `add-transaction`, `transactions`); there is no per-component CSS.
 
 ## Known issues
 
