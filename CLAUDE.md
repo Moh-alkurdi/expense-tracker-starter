@@ -28,10 +28,11 @@ There is no test runner or test suite configured.
 App (src/App.jsx)                    owns transactions state + module-level categories array
 ├── Summary (src/Summary.jsx)        props: transactions
 ├── TransactionForm (src/TransactionForm.jsx)   props: categories, onAdd
-└── TransactionList (src/TransactionList.jsx)   props: transactions, categories
+├── TransactionList (src/TransactionList.jsx)   props: transactions, categories, onDelete
+└── ShareButtons (src/ShareButtons.jsx)         no props; plain share-intent links (X, Facebook, LinkedIn, WhatsApp) for the current URL, no SDKs
 ```
 
-- One-way data flow: `App` is the single source of truth for `transactions` (seeded with hardcoded sample data, not persisted). Children never mutate it; the only write path is `TransactionForm` → `onAdd(transaction)` → `App.handleAdd`, which appends.
+- One-way data flow: `App` is the single source of truth for `transactions` (seeded with hardcoded sample data, not persisted). Children never mutate it; the write paths are `TransactionForm` → `onAdd(transaction)` → `App.handleAdd` (appends) and `TransactionList` → `onDelete(id)` → `App.handleDelete` (removes, after a `window.confirm`).
 - State is kept local to the component that uses it:
   - `TransactionForm` owns its input state (description, amount, type, category), builds the complete transaction object (`id`, parsed `amount`, `date`), and resets itself after submit.
   - `TransactionList` owns the type/category filter state and derives the filtered rows on render.

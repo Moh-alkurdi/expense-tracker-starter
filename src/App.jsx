@@ -3,6 +3,7 @@ import './App.css'
 import Summary from './Summary.jsx'
 import TransactionForm from './TransactionForm.jsx'
 import TransactionList from './TransactionList.jsx'
+import ShareButtons from './ShareButtons.jsx'
 
 const categories = ["food", "housing", "utilities", "transport", "entertainment", "salary", "other"];
 
@@ -22,6 +23,10 @@ function App() {
     setTransactions([...transactions, transaction]);
   };
 
+  const handleDelete = (id) => {
+    setTransactions(prev => prev.filter(t => t.id !== id));
+  };
+
   return (
     <div className="app">
       <h1>Finance Tracker</h1>
@@ -29,7 +34,8 @@ function App() {
 
       <Summary transactions={transactions} />
       <TransactionForm categories={categories} onAdd={handleAdd} />
-      <TransactionList transactions={transactions} categories={categories} />
+      <TransactionList transactions={transactions} categories={categories} onDelete={handleDelete} />
+      <ShareButtons />
     </div>
   );
 }
