@@ -4,6 +4,7 @@ import Summary from './Summary.jsx'
 import TransactionForm from './TransactionForm.jsx'
 import TransactionList from './TransactionList.jsx'
 import ShareButtons from './ShareButtons.jsx'
+import SpendingChart from './SpendingChart.jsx'
 
 const categories = ["food", "housing", "utilities", "transport", "entertainment", "salary", "other"];
 
@@ -33,6 +34,7 @@ function App() {
       <p className="subtitle">Track your income and expenses</p>
 
       <Summary transactions={transactions} />
+      <SpendingChart transactions={transactions} />
       <TransactionForm categories={categories} onAdd={handleAdd} />
       <TransactionList transactions={transactions} categories={categories} onDelete={handleDelete} />
       <ShareButtons />

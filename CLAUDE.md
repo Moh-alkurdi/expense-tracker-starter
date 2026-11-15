@@ -27,6 +27,7 @@ There is no test runner or test suite configured.
 ```
 App (src/App.jsx)                    owns transactions state + module-level categories array
 ├── Summary (src/Summary.jsx)        props: transactions
+├── SpendingChart (src/SpendingChart.jsx)   props: transactions; recharts line chart of expense totals per category
 ├── TransactionForm (src/TransactionForm.jsx)   props: categories, onAdd
 ├── TransactionList (src/TransactionList.jsx)   props: transactions, categories, onDelete
 └── ShareButtons (src/ShareButtons.jsx)         no props; plain share-intent links (X, Facebook, LinkedIn, WhatsApp) for the current URL, no SDKs
