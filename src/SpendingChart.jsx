@@ -1,4 +1,5 @@
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts'
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts'
+import { formatMoney } from './format.js'
 
 function SpendingChart({ transactions }) {
   const totals = {};
@@ -16,12 +17,13 @@ function SpendingChart({ transactions }) {
         <p>No expenses yet.</p>
       ) : (
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={data} margin={{ left: 20, right: 20 }}>
+          <BarChart data={data} margin={{ left: 20, right: 20 }}>
             <XAxis dataKey="category" />
-            <YAxis tickFormatter={v => `$${v}`} />
-            <Tooltip formatter={v => [`$${v}`, "Spent"]} />
-            <Line type="monotone" dataKey="amount" stroke="#e74c3c" />
-          </LineChart>
+            <YAxis tickFormatter={formatMoney} />
+            <Tooltip formatter={v => [formatMoney(v), "Spent"]} />
+            {/* Same red as --expense in index.css */}
+            <Bar dataKey="amount" fill="#dc2626" radius={[4, 4, 0, 0]} />
+          </BarChart>
         </ResponsiveContainer>
       )}
     </div>

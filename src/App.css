@@ -221,3 +221,13 @@ tbody tr:hover .delete-btn,
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+.form-error {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--expense);
+}
+
+input[aria-invalid="true"] {
+  border-color: var(--expense);
+}
