@@ -1,66 +1,81 @@
 .app {
-  max-width: 800px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 32px 16px;
 }
 
 h1 {
+  font-size: 28px;
   margin-bottom: 4px;
 }
 
 .subtitle {
-  margin-bottom: 20px;
-  color: #666;
+  margin-bottom: 24px;
+  color: var(--muted);
 }
 
+/* Cards */
+.summary-card,
+.add-transaction,
+.spending-chart,
+.transactions {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.add-transaction,
+.spending-chart,
+.transactions {
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.add-transaction h2,
+.spending-chart h2,
+.transactions h2 {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+/* Summary */
 .summary {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .summary-card {
   flex: 1;
-  border: 1px solid #ddd;
-  padding: 14px;
-  background: #fff;
+  min-width: 160px;
+  padding: 16px;
+  border-top: 4px solid var(--accent);
 }
+
+.summary-card.income { border-top-color: var(--income); }
+.summary-card.expense { border-top-color: var(--expense); }
 
 .summary-card h3 {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
 }
 
-.income-amount {
-  color: green;
-  font-size: 20px;
-  font-weight: bold;
+.summary-card p {
+  font-size: 26px;
+  font-weight: 700;
 }
 
-.expense-amount {
-  color: red;
-  font-size: 20px;
-  font-weight: bold;
-}
+.income-amount { color: var(--income); }
+.expense-amount { color: var(--expense); }
+.balance-amount.negative { color: var(--expense); }
 
-.balance-amount {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.add-transaction, .spending-chart {
-  border: 1px solid #ddd;
-  padding: 16px;
-  margin-bottom: 24px;
-  background: #fff;
-}
-
-.add-transaction h2, .spending-chart h2 {
-  font-size: 16px;
-  margin-bottom: 12px;
-}
-
+/* Form */
 form {
   display: flex;
   gap: 8px;
@@ -68,42 +83,47 @@ form {
 }
 
 form input,
-form select {
-  padding: 8px;
-  border: 1px solid #ccc;
+form select,
+.filters select {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   font-size: 14px;
+  background: var(--surface);
+  color: var(--text);
 }
 
-form input[type="text"] {
-  flex: 2;
-}
+form input[type="text"] { flex: 2; }
+form input[type="number"] { flex: 1; }
+form select { flex: 1; }
 
-form input[type="number"] {
-  flex: 1;
-}
-
-form select {
-  flex: 1;
-}
-
-form button {
+form button,
+.share-button {
   padding: 8px 20px;
-  background: #333;
+  background: var(--accent);
   color: #fff;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
-.transactions {
-  margin-bottom: 24px;
+form button:hover,
+.share-button:hover {
+  background: var(--accent-hover);
 }
 
-.transactions h2 {
-  font-size: 16px;
-  margin-bottom: 12px;
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
+/* Transactions table */
 .filters {
   display: flex;
   gap: 8px;
@@ -111,8 +131,6 @@ form button {
 }
 
 .filters select {
-  padding: 6px;
-  border: 1px solid #ccc;
   font-size: 13px;
 }
 
@@ -121,49 +139,85 @@ table {
   border-collapse: collapse;
 }
 
-thead {
-  background: #f5f5f5;
-}
-
 th, td {
-  padding: 10px;
+  padding: 12px 10px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border);
   font-size: 14px;
 }
 
 th {
   font-size: 12px;
-  color: #888;
+  font-weight: 600;
+  color: var(--muted);
   text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--bg); }
+
+td.date { color: var(--muted); white-space: nowrap; }
+
+.amount {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.category-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: capitalize;
 }
 
 .delete-btn {
-  padding: 4px 10px;
-  background: #eee;
-  border: 1px solid #ccc;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
   cursor: pointer;
-  font-size: 12px;
-  color: #333;
+  opacity: 0.35;
 }
 
+tbody tr:hover .delete-btn,
+.delete-btn:focus-visible {
+  opacity: 1;
+}
+
+.delete-btn:hover {
+  background: var(--expense-soft);
+  color: var(--expense);
+}
+
+/* Share */
 .share-buttons {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
   font-size: 13px;
-  color: #666;
+  color: var(--muted);
 }
 
 .share-button {
   padding: 6px 14px;
-  background: #333;
-  color: #fff;
-  text-decoration: none;
   font-size: 13px;
 }
 
-.share-button:hover {
-  background: #555;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }

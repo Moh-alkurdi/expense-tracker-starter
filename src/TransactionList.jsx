@@ -1,5 +1,8 @@
 import { useState } from 'react'
 
+const formatDate = (iso) =>
+  new Date(iso + "T00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+
 function TransactionList({ transactions, categories, onDelete }) {
   const [filterType, setFilterType] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
@@ -35,17 +38,17 @@ function TransactionList({ transactions, categories, onDelete }) {
             <th>Date</th>
             <th>Description</th>
             <th>Category</th>
-            <th>Amount</th>
-            <th>Action</th>
+            <th className="amount">Amount</th>
+            <th><span className="visually-hidden">Actions</span></th>
           </tr>
         </thead>
         <tbody>
           {filteredTransactions.map(t => (
             <tr key={t.id}>
-              <td>{t.date}</td>
+              <td className="date">{formatDate(t.date)}</td>
               <td>{t.description}</td>
-              <td>{t.category}</td>
-              <td className={t.type === "income" ? "income-amount" : "expense-amount"}>
+              <td><span className="category-tag">{t.category}</span></td>
+              <td className={`amount ${t.type === "income" ? "income-amount" : "expense-amount"}`}>
                 {t.type === "income" ? "+" : "-"}${t.amount}
               </td>
               <td>
@@ -55,7 +58,7 @@ function TransactionList({ transactions, categories, onDelete }) {
                   onClick={() => {
                     if (window.confirm(`Delete "${t.description}" ($${t.amount})?`)) onDelete(t.id);
                   }}
-                >Delete</button>
+                >✕</button>
               </td>
             </tr>
           ))}
